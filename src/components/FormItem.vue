@@ -1,272 +1,272 @@
 <!--
  * @Author: 
- * @Date: 2024-11-12 15:41:24
+ * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-12-06 10:32:45
+ * @LastEditTime: 2025-01-14 15:23:15
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
 -->
 <template>
-  <el-form
-    ref="formRef"
-    :rules="rules"
-    :model="form"
-    :label-width="labelWidth"
-    :inline="true"
-  >
-    <el-form-item
-      v-for="(item, key) in formItem"
-      :key="key"
-      :label="item.label"
-      :prop="key"
+  <div class="form-item">
+    <el-form
+      ref="formRef"
+      :model="formData"
+      :rules="rules"
+      :label-width="labelWidth"
     >
-      <!-- 输入框 -->
-      <el-input 
-        v-if="item.type === 'input'"
-        v-model="form[key]"
-        :placeholder="item.placeholder || '请输入'"
-        :disabled="item.disabled"
-        :clearable="item.clearable"
-        :maxlength="item.maxlength"
-        :show-word-limit="item.showWordLimit"
-        @input="item.input"
-      ></el-input>
-
-      <!-- 选择器 -->
-      <el-select
-        v-else-if="item.type === 'select'"
-        v-model="form[key]"
-        :placeholder="item.placeholder || '请选择'"
-        :disabled="item.disabled"
-        :clearable="item.clearable"
-        :multiple="item.multiple"
-        :collapse-tags="item.collapseTags"
-      >
-        <el-option
-          v-for="(option, index) in item.options"
+      <el-row :gutter="20">
+        <el-col
+          v-for="(item, index) in formConfig"
           :key="index"
-          :label="option.label"
-          :value="option.value"
-          :disabled="option.disabled"
-        ></el-option>
-      </el-select>
+          :span="item.span || 12"
+        >
+          <el-form-item :label="item.label" :prop="item.prop">
+            <!-- 输入框 -->
+            <el-input
+              v-if="item.type === 'input'"
+              v-model="formData[item.prop]"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              :clearable="item.clearable"
+            />
 
-      <!-- 多选框组 -->
-      <el-checkbox-group
-        v-else-if="item.type === 'checkbox'"
-        v-model="form[key]"
-        :disabled="item.disabled"
-      >
-        <el-checkbox
-          v-for="(option, index) in item.options"
-          :key="index"
-          :label="option.value"
-          :disabled="option.disabled"
-        >{{ option.label }}</el-checkbox>
-      </el-checkbox-group>
+            <!-- 文本域 -->
+            <el-input
+              v-if="item.type === 'textarea'"
+              v-model="formData[item.prop]"
+              type="textarea"
+              :rows="item.rows || 3"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+            />
 
-      <!-- 单选框组 -->
-      <el-radio-group 
-        v-else-if="item.type === 'radio'"
-        v-model="form[key]"
-        :disabled="item.disabled"
-      >
-        <el-radio
-          v-for="(option, index) in item.options"
-          :key="index"
-          :label="option.value"
-          :disabled="option.disabled"
-        >{{ option.label }}</el-radio>
-      </el-radio-group>
+            <!-- 选择器 -->
+            <el-select
+              v-if="item.type === 'select'"
+              v-model="formData[item.prop]"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              :clearable="item.clearable"
+              :multiple="item.multiple"
+              :multiple-limit="item.multipleLimit"
+              :filterable="item.filterable"
+              :filter-method="item.filterMethod"
+              :filter-placeholder="item.filterPlaceholder"
+              :remote="item.remote"
+              :remote-method="item.remoteMethod"
+              :loading="item.loading"
+              :placement="item.placement || 'bottom'"
+            >
+              <el-option
+                v-for="option in item.options"
+                :key="option[item.valueKey || 'value']"
+                :label="option[item.labelKey || 'label']"
+                :value="option[item.valueKey || 'value']"
+              />
+            </el-select>
 
-      <!-- 开关 -->
-      <el-switch
-        v-else-if="item.type === 'switch'"
-        v-model="form[key]"
-        :disabled="item.disabled"
-        :active-text="item.activeText"
-        :inactive-text="item.inactiveText"
-        :active-value="item.activeValue"
-        :inactive-value="item.inactiveValue"
-      ></el-switch>
+            <!-- 单选框组 -->
+            <el-radio-group
+              v-if="item.type === 'radio'"
+              v-model="formData[item.prop]"
+              :disabled="item.disabled"
+            >
+              <el-radio
+                v-for="option in item.options"
+                :key="option.value"
+                :label="option.value"
+              >
+                {{ option.label }}
+              </el-radio>
+            </el-radio-group>
 
-      <!-- 日期选择器 -->
-      <el-date-picker
-        v-else-if="item.type === 'date'"
-        v-model="form[key]"
-        :type="item.dateType || 'date'"
-        :placeholder="item.placeholder || '选择日期'"
-        :format="item.format"
-        :value-format="item.valueFormat || 'YYYY-MM-DD'"
-        :disabled="item.disabled"
-        :clearable="item.clearable"
-        :start-placeholder="item.startPlaceholder"
-        :end-placeholder="item.endPlaceholder"
-        style="width: 100%"
-      ></el-date-picker>
+            <!-- 复选框组 -->
+            <el-checkbox-group
+              v-if="item.type === 'checkbox'"
+              v-model="formData[item.prop]"
+              :disabled="item.disabled"
+            >
+              <el-checkbox
+                v-for="option in item.options"
+                :key="option.value"
+                :label="option.value"
+              >
+                {{ option.label }}
+              </el-checkbox>
+            </el-checkbox-group>
 
-      <!-- 时间选择器 -->
-      <el-time-picker
-        v-else-if="item.type === 'time'"
-        v-model="form[key]"
-        :placeholder="item.placeholder || '选择时间'"
-        :disabled="item.disabled"
-        :clearable="item.clearable"
-        :format="item.format"
-        :value-format="item.valueFormat || 'HH:mm:ss'"
-        style="width: 100%"
-      ></el-time-picker>
+            <!-- 开关 -->
+            <el-switch
+              v-if="item.type === 'switch'"
+              v-model="formData[item.prop]"
+              :disabled="item.disabled"
+            />
 
-      <!-- 日期时间选择器 -->
-      <el-date-picker
-        v-else-if="item.type === 'datetime'"
-        v-model="form[key]"
-        type="datetime"
-        :placeholder="item.placeholder || '选择日期时间'"
-        :format="item.format"
-        :value-format="item.valueFormat || 'YYYY-MM-DD HH:mm:ss'"
-        :disabled="item.disabled"
-        :clearable="item.clearable"
-        style="width: 100%"
-      ></el-date-picker>
+            <!-- 日期选择器 -->
+            <el-date-picker
+              v-if="item.type === 'date'"
+              v-model="formData[item.prop]"
+              :type="item.dateType || 'date'"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              :clearable="item.clearable"
+            />
 
-      <!-- 文本域 -->
-      <el-input
-        v-else-if="item.type === 'textarea'"
-        v-model="form[key]"
-        type="textarea"
-        :rows="item.rows || 3"
-        :placeholder="item.placeholder || '请输入'"
-        :maxlength="item.maxlength"
-        :show-word-limit="item.showWordLimit"
-        :disabled="item.disabled"
-      ></el-input>
+            <!-- 时间选择器 -->
+            <el-time-picker
+              v-if="item.type === 'time'"
+              v-model="formData[item.prop]"
+              :is-range="item.timeType === 'timerange'"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              :clearable="item.clearable"
+            />
 
-      <!-- 数字输入框 -->
-      <el-input-number
-        v-else-if="item.type === 'number'"
-        v-model="form[key]"
-        :min="item.min"
-        :max="item.max"
-        :step="item.step"
-        :precision="item.precision"
-        :disabled="item.disabled"
-        :controls="item.controls"
-      ></el-input-number>
+            <!-- 级联选择器 -->
+            <el-cascader
+              v-if="item.type === 'cascader'"
+              v-model="formData[item.prop]"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              :clearable="item.clearable"
+              :options="item.options"
+              :props="{
+                value: item.valueKey || 'value',
+                label: item.labelKey || 'label',
+              }"
+              :show-all-levels="item.showAllLevels || false"
+              :show-input-controls="item.showInputControls || false"
+            />
 
-      <!-- 评分 -->
-      <el-rate
-        v-else-if="item.type === 'rate'"
-        v-model="form[key]"
-        :max="item.max"
-        :disabled="item.disabled"
-        :allow-half="item.allowHalf"
-        :show-text="item.showText"
-      ></el-rate>
-
-      <!-- 滑块 -->
-      <el-slider
-        v-else-if="item.type === 'slider'"
-        v-model="form[key]"
-        :min="item.min"
-        :max="item.max"
-        :step="item.step"
-        :disabled="item.disabled"
-        :show-stops="item.showStops"
-        :range="item.range"
-      ></el-slider>
-
-      <!-- 颜色选择器 -->
-      <el-color-picker
-        v-else-if="item.type === 'color'"
-        v-model="form[key]"
-        :disabled="item.disabled"
-        :show-alpha="item.showAlpha"
-      ></el-color-picker>
-
-      <!-- 级联选择器 -->
-      <el-cascader
-        v-else-if="item.type === 'cascader'"
-        v-model="form[key]"
-        :options="item.options"
-        :props="item.props"
-        :placeholder="item.placeholder || '请选择'"
-        :disabled="item.disabled"
-        :clearable="item.clearable"
-      ></el-cascader>
-
-
-      <!-- 远程搜索输入框 -->
-      <!-- <el-autocomplete
-        v-else-if="item.type === 'remoteSearch'"
-        v-model="form[key]"
-        :fetch-suggestions="item.fetchSuggestions"
-        :placeholder="item.placeholder || '请输入关键词搜索'"
-        :trigger-on-focus="item.triggerOnFocus"
-        :disabled="item.disabled"
-        :clearable="item.clearable"
-        @select="item.select"
-      ></el-autocomplete> -->
-
-      <!-- 自定义插槽 -->
-      <slot :name="key" v-else-if="item.type==='slot'"></slot>
-      
-    </el-form-item>
-  </el-form>
+            <!-- 滑块 -->
+            <el-slider
+              v-if="item.type === 'slider'"
+              v-model="formData[item.prop]"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              :min="item.min || 0"
+              :max="item.max || 100"
+              :step="item.step || 1"
+              :show-input="item.showInput || true"
+            />
+            <!-- 模糊搜索 -->
+            <el-autocomplete
+              v-if="item.type === 'autocomplete'"
+              v-model="formData[item.prop]"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              :filter-method="item.filterMethod"
+              :fetch-suggestions="item.fetchSuggestions"
+              @select="item.selectMethod || defaultSelectMethod"
+            >
+              <template #default="scope">
+                <div v-if="Array.isArray(item.contentKey)">
+                  <span v-for="key in item.contentKey" :key="key">
+                    {{ scope.item[key] }}
+                  </span>
+                </div>
+                <div v-else-if="typeof item.contentKey === 'string'">
+                  {{ scope.item[item.contentKey] }}
+                </div>
+                <div v-else>
+                  {{ scope.item.label }}
+                </div>
+              </template>
+            </el-autocomplete>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
 </template>
 
-<script lang="ts" name="" setup>
-import { defineProps, ref, defineExpose } from 'vue'
-import { Form } from './helper/button'
-import type { FormRules } from 'element-plus'
+<script lang="ts" setup>
+import { ref, defineProps, defineEmits, PropType } from 'vue'
+import type { FormItem } from './types/formItem'
 
-interface Item {
-  name: string
-  region: string
-  [key: string]: any
+const props = defineProps({
+  // 表单配置
+  formConfig: {
+    type: Array as PropType<FormItem[]>,
+    required: true,
+  },
+  // 表单数据
+  modelValue: {
+    type: Object,
+    required: true,
+  },
+  // 表单验证规则
+  rules: {
+    type: Object,
+    default: () => ({}),
+  },
+  // 标签宽度
+  labelWidth: {
+    type: String,
+    default: '80px',
+  },
+  // 新增col属性
+  col: {
+    type: Number,
+    default: 2,
+  },
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+// 表单数据
+const formData = ref(props.modelValue)
+
+// 默认选择方法
+const defaultSelectMethod = (item: any) => {
+  console.log(item)
 }
 
-interface Props {
-  form: {
-    name: string
-    region: string
-    [key: string]: any
-  }
-  formItem: Form<Item>
-  labelWidth: number
-  rules: FormRules<Item>
+// 表单ref
+const formRef = ref()
+// 表单验证方法
+const validate = () => {
+  return formRef.value.validate()
+}
+// 重置表单
+const resetForm = () => {
+  formRef.value.resetFields()
 }
 
-const { form, formItem, labelWidth = 100, rules } = defineProps<Props>()
-const formRef = ref() // 创建一个 ref 来引用 el-form
-
-// 暴露 validate 方法
+// 对外暴露方法
 defineExpose({
-  validate: () => {
-    // 表单验证逻辑
-    return formRef.value.validate() // 或根据你的逻辑调用
-  },
-  reset: () => {
-    // 表单重置逻辑
-    return formRef.value.resetFields() // 或根据你的逻辑调用
-  },
+  validate,
+  resetForm,
 })
 </script>
 
-<style scoped lang="scss">
-:deep(.el-input) {
-  min-width: 250px;
-}
-:deep(.el-select) {
-  min-width: 250px;
-}
-:deep(.el-cascader) {
-  min-width: 250px;
-}
-:deep(.el-date-picker) {
-  min-width: 250px;
-}
-:deep(.el-time-picker) {
-  min-width: 250px;
+<style lang="scss" scoped>
+.form-item {
+  .el-form-item {
+    margin-bottom: 18px;
+  }
+
+  // 只为特定元素设置100%宽度
+  .el-input__inner,
+  .el-radio-group,
+  .el-input-number,
+  .el-cascader,
+  .el-textarea,
+  .el-checkbox-group,
+  .el-autocomplete,
+  .el-select,
+  .el-switch {
+    width: 100% !important;
+  }
+
+  // 日期和时间选择器保持100%宽度
+  :deep(.el-date-editor.el-input),
+  :deep(.el-date-editor.el-input__wrapper),
+  :deep(.el-time-editor.el-input),
+  :deep(.el-time-editor.el-input__wrapper) {
+    width: 100% !important;
+  }
+
+  // 移除了 .el-select 的强制宽度设置
 }
 </style>

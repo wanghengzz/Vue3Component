@@ -13,7 +13,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 const router = useRouter()
-console.log(router.getRoutes())
 const navList = router.getRoutes().filter(item => item.path !== '/')
 </script>
 
@@ -24,18 +23,19 @@ const navList = router.getRoutes().filter(item => item.path !== '/')
   display: flex;
   flex-direction: column;
   .nav-container {
-    padding: 20px;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    height: $nav-height;
     a {
       color: #333;
       text-decoration: none;
-      padding: 10px 20px;
       margin: 0 5px;
       border-radius: 4px;
       transition: all 0.3s ease;
+      padding:10px;
       &:hover {
-        background-color: #e9ecef;
+        background-color: #6184a8;
       }
       &.active {
         color: #007bff;
@@ -44,8 +44,13 @@ const navList = router.getRoutes().filter(item => item.path !== '/')
     }
   }
   .app-container {
-    width: 100%;
-    height: calc(100vh - 60px); // 减去导航栏的高度
+    width: calc(100% - $content-padding * 2);
+    height: calc(100vh - $nav-height); // 减去导航栏的高度
+    padding: $content-padding;
+    & > div {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
