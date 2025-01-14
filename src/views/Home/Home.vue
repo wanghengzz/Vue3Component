@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-14 15:22:35
+ * @LastEditTime: 2025-01-14 15:50:41
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref ,watch} from 'vue'
 import type { FormItem } from '@/components/types/formItem'
 const buttonGroup = [
   {
@@ -73,6 +73,11 @@ const formConfig: FormItem[] = [
     prop: 'username',
     placeholder: '请输入用户名',
     clearable: true,
+    // 数字
+    reg: /[^0-9]/g,
+    inputMethod: (val: any) => {
+      console.log(val, 'inputMethod')
+    },
   },
   {
     type: 'select',
@@ -136,6 +141,7 @@ const formConfig: FormItem[] = [
     placeholder: '请输入内容',
     // contentKey: ['labelKey', 'valueKey'],
     contentKey: 'labelKey',
+    valueKey: 'valueKey',
     fetchSuggestions: (query: string,callback: (suggestions: any[]) => void) => {
       setTimeout(() => {
         callback([
@@ -153,7 +159,16 @@ const formConfig: FormItem[] = [
 const formData = ref({
   username: '',
   role: '',
+  remark: '',
+  gender: '',
+  birthday: '',
+  isEnabled: '',
+  autocomplete: '',
 })
+
+watch(formData, (newVal, oldVal) => {
+  console.log(newVal, oldVal, 'formData')
+}, { deep: true })
 
 const rules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],

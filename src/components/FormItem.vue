@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-14 15:23:15
+ * @LastEditTime: 2025-01-14 15:47:28
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
 -->
@@ -28,6 +28,7 @@
               :placeholder="item.placeholder"
               :disabled="item.disabled"
               :clearable="item.clearable"
+              @input="handleInput(item, $event)"
             />
 
             <!-- 文本域 -->
@@ -38,6 +39,7 @@
               :rows="item.rows || 3"
               :placeholder="item.placeholder"
               :disabled="item.disabled"
+              @input="handleInput(item, $event)"
             />
 
             <!-- 选择器 -->
@@ -56,6 +58,7 @@
               :remote-method="item.remoteMethod"
               :loading="item.loading"
               :placement="item.placement || 'bottom'"
+              @select="item.selectMethod"
             >
               <el-option
                 v-for="option in item.options"
@@ -70,6 +73,7 @@
               v-if="item.type === 'radio'"
               v-model="formData[item.prop]"
               :disabled="item.disabled"
+              @select="item.selectMethod"
             >
               <el-radio
                 v-for="option in item.options"
@@ -85,6 +89,7 @@
               v-if="item.type === 'checkbox'"
               v-model="formData[item.prop]"
               :disabled="item.disabled"
+              @select="item.selectMethod"
             >
               <el-checkbox
                 v-for="option in item.options"
@@ -100,6 +105,7 @@
               v-if="item.type === 'switch'"
               v-model="formData[item.prop]"
               :disabled="item.disabled"
+              @select="item.selectMethod"
             />
 
             <!-- 日期选择器 -->
@@ -110,6 +116,7 @@
               :placeholder="item.placeholder"
               :disabled="item.disabled"
               :clearable="item.clearable"
+              @select="item.selectMethod"
             />
 
             <!-- 时间选择器 -->
@@ -120,6 +127,7 @@
               :placeholder="item.placeholder"
               :disabled="item.disabled"
               :clearable="item.clearable"
+              @select="item.selectMethod"
             />
 
             <!-- 级联选择器 -->
@@ -136,6 +144,7 @@
               }"
               :show-all-levels="item.showAllLevels || false"
               :show-input-controls="item.showInputControls || false"
+              @select="item.selectMethod"
             />
 
             <!-- 滑块 -->
@@ -148,6 +157,7 @@
               :max="item.max || 100"
               :step="item.step || 1"
               :show-input="item.showInput || true"
+              @select="item.selectMethod"
             />
             <!-- 模糊搜索 -->
             <el-autocomplete
@@ -157,7 +167,8 @@
               :disabled="item.disabled"
               :filter-method="item.filterMethod"
               :fetch-suggestions="item.fetchSuggestions"
-              @select="item.selectMethod || defaultSelectMethod"
+              :value-key="item.valueKey"
+              @select="item.selectMethod"
             >
               <template #default="scope">
                 <div v-if="Array.isArray(item.contentKey)">
@@ -217,9 +228,19 @@ const emit = defineEmits(['update:modelValue'])
 // 表单数据
 const formData = ref(props.modelValue)
 
-// 默认选择方法
-const defaultSelectMethod = (item: any) => {
-  console.log(item)
+// 处理输入框输入
+const handleInput = (item: FormItem, val: any) => {
+  if (item.reg) {
+    // 如果传入的是字符串，将其转换为RegExp对象
+    const regex = typeof item.reg === 'string' ? new RegExp(item.reg) : item.reg
+    // 使用正则替换，如果不匹配则替换为空字符串
+    const newVal = String(val).replace(regex, '')
+    // 更新表单数据
+    formData.value[item.prop] = newVal
+    // 触发v-model更新
+    emit('update:modelValue', formData.value)
+  }
+  item.inputMethod && item.inputMethod(formData.value[item.prop])
 }
 
 // 表单ref
