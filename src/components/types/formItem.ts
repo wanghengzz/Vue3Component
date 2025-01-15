@@ -17,7 +17,9 @@ export interface FormItem {
     | 'textarea'
     | 'cascader'
     | 'slider'
-    | 'autocomplete' // 表单项类型
+    | 'autocomplete'
+    | 'title'
+    | 'slot' // 表单项类型
   label: string // 标签文本
   prop: string // 表单域字段名
   placeholder?: string // 输入框占位文本
@@ -76,4 +78,5 @@ export interface FormItem {
 
   // 自定义内容相关属性
   contentKey?: string | string[] // 内容键名
+  slotName?: string // 插槽名称
 }

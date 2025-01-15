@@ -2,7 +2,15 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-13 10:35:21
+ * @LastEditTime: 2025-01-15 13:46:34
+ * @Description: 
+ * @FilePath: \vue3-project\src\router\index.ts
+ */
+/*
+ * @Author: 
+ * @Date: 2025-01-13 09:48:42
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2025-01-15 13:30:24
  * @Description: 
  * @FilePath: \vue3-project\src\router\index.ts
  */
@@ -21,19 +29,43 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Home',
         component: () => import('../views/Home/Home.vue'),
         meta: {
-          title: '首页'
-        }
+          title: '首页',
+        },
       },
       {
         path: 'about',
         name: 'About',
         component: () => import('../views/About/About.vue'),
         meta: {
-          title: '关于'
-        }
-      }
-    ]
-  }
+          title: '关于',
+        },
+      },
+      {
+        path: 'iframe',
+        name: 'Iframe',
+        component: () => import('../views/Iframe/index.vue'),
+        meta: {
+          title: 'iframe',
+          isIframe: true,
+        },
+        props: (route) => ({
+          iframeUrl: route.query.url || 'http://localhost:8081/iframe',
+        }),
+      },
+      {
+        path: 'iframe2',
+        name: 'Iframe2',
+        component: () => import('../views/Iframe/index.vue'),
+        meta: {
+          title: 'iframe2',
+          isIframe: true,
+        },
+        props: (route) => ({
+          iframeUrl: route.query.url || 'http://localhost:8081/about',
+        }),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({

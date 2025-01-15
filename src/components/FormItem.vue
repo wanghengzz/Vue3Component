@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-14 15:47:28
+ * @LastEditTime: 2025-01-15 09:44:01
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
 -->
@@ -20,7 +20,8 @@
           :key="index"
           :span="item.span || 12"
         >
-          <el-form-item :label="item.label" :prop="item.prop">
+          <h4 v-if="item.type === 'title'">{{ item.label }}</h4>
+          <el-form-item v-else :label="item.label" :prop="item.prop">
             <!-- 输入框 -->
             <el-input
               v-if="item.type === 'input'"
@@ -184,6 +185,9 @@
                 </div>
               </template>
             </el-autocomplete>
+
+            <!-- 插槽 -->
+            <slot v-if="item.type === 'slot'" :name="item.slotName" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -247,7 +251,15 @@ const handleInput = (item: FormItem, val: any) => {
 const formRef = ref()
 // 表单验证方法
 const validate = () => {
-  return formRef.value.validate()
+  return new Promise((resolve, reject) => {
+    formRef.value.validate((valid: boolean) => {
+      if (valid) {
+        resolve(valid)
+      } else {
+        reject(valid)
+      }
+    })
+  })
 }
 // 重置表单
 const resetForm = () => {

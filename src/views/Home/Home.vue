@@ -2,7 +2,15 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-14 15:50:41
+ * @LastEditTime: 2025-01-15 09:43:14
+ * @Description: 
+ * @FilePath: \vue3-project\src\views\Home\Home.vue
+-->
+<!--
+ * @Author: 
+ * @Date: 2025-01-13 09:48:53
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2025-01-15 09:35:19
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -16,7 +24,12 @@
       v-model="formData"
       :rules="rules"
       ref="formItemRef"
-    />
+    > 
+      <template #slotName>
+        <div>插槽内容</div>
+      </template>
+    </FormItem>
+    <button @click="submit">提交</button>
   </div>
 </template>
 
@@ -154,6 +167,18 @@ const formConfig: FormItem[] = [
       console.log(item)
     },
   },
+  {
+    type: 'slot',
+    label: '插槽',
+    prop: 'slot',
+    slotName: 'slotName',
+  },
+  {
+    type: 'title',
+    label: '标题',
+    prop: 'title',
+    span: 24,
+  },
 ]
 
 const formData = ref({
@@ -164,6 +189,7 @@ const formData = ref({
   birthday: '',
   isEnabled: '',
   autocomplete: '',
+  slot: '',
 })
 
 watch(formData, (newVal, oldVal) => {
@@ -173,5 +199,17 @@ watch(formData, (newVal, oldVal) => {
 const rules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   role: [{ required: true, message: '请选择角色', trigger: 'change' }],
+}
+
+const formItemRef = ref()
+
+const submit = async () => {
+  try {
+    const valid = await formItemRef.value.validate()
+    console.log(formData.value, 'formData')
+    console.log(valid, 'valid')
+  } catch (error) {
+    console.log('验证失败')
+  }
 }
 </script>
