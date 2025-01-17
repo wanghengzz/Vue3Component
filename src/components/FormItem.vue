@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-15 09:44:01
+ * @LastEditTime: 2025-01-16 10:49:03
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
 -->
@@ -13,14 +13,15 @@
       :model="formData"
       :rules="rules"
       :label-width="labelWidth"
+      :label-position="labelPosition"
     >
       <el-row :gutter="20">
         <el-col
           v-for="(item, index) in formConfig"
           :key="index"
-          :span="item.span || 12"
+          :span="item.span || 6"
         >
-          <h4 v-if="item.type === 'title'">{{ item.label }}</h4>
+          <span v-if="item.type === 'title'">{{ item.label }}</span>
           <el-form-item v-else :label="item.label" :prop="item.prop">
             <!-- 输入框 -->
             <el-input
@@ -224,6 +225,11 @@ const props = defineProps({
   col: {
     type: Number,
     default: 2,
+  },
+  // 标签位置
+  labelPosition: {
+    type: String,
+    default: 'left',
   },
 })
 

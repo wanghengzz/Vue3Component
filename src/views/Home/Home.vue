@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-15 09:43:14
+ * @LastEditTime: 2025-01-17 14:14:29
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -18,7 +18,6 @@
   <div class="home">
     <!-- <h1>首页</h1> -->
     <commonButton :buttonGroup="buttonGroup" />
-
     <FormItem
       :form-config="formConfig"
       v-model="formData"
@@ -29,18 +28,22 @@
         <div>插槽内容</div>
       </template>
     </FormItem>
-    <button @click="submit">提交</button>
+    <el-button @click="submit">提交</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref ,watch} from 'vue'
 import type { FormItem } from '@/components/types/formItem'
+import { getEnumeValue } from '@/hook/getEnumeValue'
+import { ElMessage } from 'element-plus'
 const buttonGroup = [
   {
     text: '按钮1',
     type: 'primary',
     disabled: false,
+    icon: 'Edit',
+    iconPosition: 'right',
     onClick: () => {
       console.log('按钮1')
     },
@@ -124,10 +127,7 @@ const formConfig: FormItem[] = [
     type: 'radio',
     label: '性别',
     prop: 'gender',
-    options: [
-      { label: '男', value: 1 },
-      { label: '女', value: 2 },
-    ],
+    options: getEnumeValue('sex'),
   },
   {
     type: 'date',
@@ -193,7 +193,7 @@ const formData = ref({
 })
 
 watch(formData, (newVal, oldVal) => {
-  console.log(newVal, oldVal, 'formData')
+  // console.log(newVal, oldVal, 'formData')
 }, { deep: true })
 
 const rules = {
@@ -208,8 +208,9 @@ const submit = async () => {
     const valid = await formItemRef.value.validate()
     console.log(formData.value, 'formData')
     console.log(valid, 'valid')
+    ElMessage.success('验证成功')
   } catch (error) {
-    console.log('验证失败')
+    ElMessage.error('验证失败')
   }
 }
 </script>
