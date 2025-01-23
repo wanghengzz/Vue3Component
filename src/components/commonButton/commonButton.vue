@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 10:51:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-23 15:19:43
+ * @LastEditTime: 2025-01-23 16:19:32
  * @Description: 
  * @FilePath: \vue3-project\src\components\commonButton\commonButton.vue
 -->
@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import type { ButtonItem } from '../types/button'
 import type { PropType } from 'vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed,watch } from 'vue'
 
 const props = defineProps({
   buttonGroup: {
@@ -49,12 +49,10 @@ const props = defineProps({
   },
 })
 
-// 创建一个数组来存储每个按钮的loading状态
+// // 创建一个数组来存储每个按钮的loading状态
 const loadingStates = ref<boolean[]>([])
-
-// 初始化loading状态数组
-onMounted(() => {
-  loadingStates.value = new Array(props.buttonGroup.length).fill(false)
+watch(() => props.buttonGroup, (newVal) => {
+  loadingStates.value = new Array(newVal.length).fill(false)
 })
 
 const handleClick = async (item: ButtonItem, index: number) => {
