@@ -2,7 +2,7 @@
  * @Author:
  * @Date: 2024-11-12 14:45:43
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-17 14:19:05
+ * @LastEditTime: 2025-01-23 15:10:40
  * @Description:
  * @FilePath: \vue3-project\src\components\types\button.ts
  */
@@ -14,9 +14,10 @@ export interface ButtonItem {
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
   icon?: string | Component
   disabled?: boolean
-  onClick: () => void,
-  iconPosition?: 'left' | 'right',
-  size?:number
+  onClick: () => void
+  iconPosition?: 'left' | 'right'
+  size?: number
+  loading?:boolean
 }
 
 export interface Props {

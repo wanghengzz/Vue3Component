@@ -79,4 +79,5 @@ export interface FormItem {
   // 自定义内容相关属性
   contentKey?: string | string[] // 内容键名
   slotName?: string // 插槽名称
+  isShow?: boolean // 是否显示
 }

@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-17 14:14:29
+ * @LastEditTime: 2025-01-23 15:05:31
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -23,7 +23,7 @@
       v-model="formData"
       :rules="rules"
       ref="formItemRef"
-    > 
+    >
       <template #slotName>
         <div>插槽内容</div>
       </template>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref ,watch} from 'vue'
+import { ref, watch, reactive, onMounted } from 'vue'
 import type { FormItem } from '@/components/types/formItem'
 import { getEnumeValue } from '@/hook/getEnumeValue'
 import { ElMessage } from 'element-plus'
@@ -44,7 +44,9 @@ const buttonGroup = [
     disabled: false,
     icon: 'Edit',
     iconPosition: 'right',
-    onClick: () => {
+    onClick: async () => {
+      // 模拟异步操作
+      await new Promise(resolve => setTimeout(resolve, 2000))
       console.log('按钮1')
     },
   },
@@ -82,7 +84,7 @@ const buttonGroup = [
   },
 ]
 
-const formConfig: FormItem[] = [
+const formConfig = reactive<FormItem[]>([
   {
     type: 'input',
     label: '用户名',
@@ -91,6 +93,7 @@ const formConfig: FormItem[] = [
     clearable: true,
     // 数字
     reg: /[^0-9]/g,
+    isShow: true,
     inputMethod: (val: any) => {
       console.log(val, 'inputMethod')
     },
@@ -155,11 +158,24 @@ const formConfig: FormItem[] = [
     // contentKey: ['labelKey', 'valueKey'],
     contentKey: 'labelKey',
     valueKey: 'valueKey',
-    fetchSuggestions: (query: string,callback: (suggestions: any[]) => void) => {
+    fetchSuggestions: (
+      query: string,
+      callback: (suggestions: any[]) => void
+    ) => {
       setTimeout(() => {
         callback([
-          { label: '选项1', value: 'value1', labelKey: 'label1', valueKey: 'value1' },
-          { label: '选项2', value: 'value2', labelKey: 'label2', valueKey: 'value2' },
+          {
+            label: '选项1',
+            value: 'value1',
+            labelKey: 'label1',
+            valueKey: 'value1',
+          },
+          {
+            label: '选项2',
+            value: 'value2',
+            labelKey: 'label2',
+            valueKey: 'value2',
+          },
         ])
       }, 1000)
     },
@@ -179,7 +195,7 @@ const formConfig: FormItem[] = [
     prop: 'title',
     span: 24,
   },
-]
+])
 
 const formData = ref({
   username: '',
@@ -192,9 +208,13 @@ const formData = ref({
   slot: '',
 })
 
-watch(formData, (newVal, oldVal) => {
-  // console.log(newVal, oldVal, 'formData')
-}, { deep: true })
+watch(
+  formData,
+  (newVal, oldVal) => {
+    console.log(newVal, oldVal, 'formData')
+  },
+  { deep: true }
+)
 
 const rules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -213,4 +233,10 @@ const submit = async () => {
     ElMessage.error('验证失败')
   }
 }
+
+onMounted(() => {
+  setTimeout(() => {
+    formConfig[0].isShow = false
+  }, 1000)
+})
 </script>

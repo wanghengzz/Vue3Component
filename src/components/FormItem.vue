@@ -2,6 +2,14 @@
  * @Author: 
  * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
+ * @LastEditTime: 2025-01-23 10:35:50
+ * @Description: 
+ * @FilePath: \vue3-project\src\components\FormItem.vue
+-->
+<!--
+ * @Author: 
+ * @Date: 2025-01-14 11:14:36
+ * @LastEditors: Do not edit
  * @LastEditTime: 2025-01-16 10:49:03
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
@@ -17,7 +25,7 @@
     >
       <el-row :gutter="20">
         <el-col
-          v-for="(item, index) in formConfig"
+          v-for="(item, index) in filteredFormConfig"
           :key="index"
           :span="item.span || 6"
         >
@@ -197,7 +205,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits, PropType } from 'vue'
+import { ref, defineProps, defineEmits, PropType, computed } from 'vue'
 import type { FormItem } from './types/formItem'
 
 const props = defineProps({
@@ -277,6 +285,10 @@ defineExpose({
   validate,
   resetForm,
 })
+
+const filteredFormConfig = computed(() => 
+  props.formConfig.filter(item => item.isShow == undefined || item.isShow)
+)
 </script>
 
 <style lang="scss" scoped>
