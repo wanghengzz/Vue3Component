@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 10:51:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-23 16:19:32
+ * @LastEditTime: 2025-01-24 13:51:02
  * @Description: 
  * @FilePath: \vue3-project\src\components\commonButton\commonButton.vue
 -->
@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import type { ButtonItem } from '../types/button'
 import type { PropType } from 'vue'
-import { ref, onMounted, computed,watch } from 'vue'
+import { ref,watch } from 'vue'
 
 const props = defineProps({
   buttonGroup: {

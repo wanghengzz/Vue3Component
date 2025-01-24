@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-23 10:35:50
+ * @LastEditTime: 2025-01-24 13:51:26
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
 -->
@@ -38,6 +38,7 @@
               :placeholder="item.placeholder"
               :disabled="item.disabled"
               :clearable="item.clearable"
+              :maxlength="item.maxlength"
               @input="handleInput(item, $event)"
             />
 

@@ -1,3 +1,11 @@
+/*
+ * @Author: 
+ * @Date: 2025-01-14 10:50:34
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2025-01-24 13:51:38
+ * @Description: 
+ * @FilePath: \vue3-project\src\components\types\formItem.ts
+ */
 interface OptionType {
   [key: string]: any
   label: string
@@ -80,4 +88,5 @@ export interface FormItem {
   contentKey?: string | string[] // 内容键名
   slotName?: string // 插槽名称
   isShow?: boolean // 是否显示
+  maxlength?: number // 最大长度
 }
