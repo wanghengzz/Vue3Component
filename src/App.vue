@@ -2,18 +2,11 @@
  * @Author: 
  * @Date: 2024-09-19 16:02:57
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-16 10:24:21
+ * @LastEditTime: 2025-03-27 09:56:12
  * @Description: 
  * @FilePath: \vue3-project\src\App.vue
 -->
 <script setup lang="ts">
-import { useStore } from './stores'
-import { onMounted } from 'vue'
-import { enumData } from './mock'
-const store = useStore()
-onMounted(() => {
-  store.enum.setEnumData(enumData)
-})
 </script>
 
 <template>

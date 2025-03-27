@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2024-09-19 16:02:57
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-17 14:12:53
+ * @LastEditTime: 2025-02-08 15:56:17
  * @Description: 
  * @FilePath: \vue3-project\src\main.ts
  */
@@ -28,5 +28,6 @@ app.use(pinia)
 app.use(router)
 app.use(ElementPlus, {
   locale: zhCn,
+  zIndex: 9999
 })
 app.mount('#app')

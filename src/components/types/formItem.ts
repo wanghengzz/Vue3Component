@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 10:50:34
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-24 13:51:38
+ * @LastEditTime: 2025-03-07 08:58:55
  * @Description: 
  * @FilePath: \vue3-project\src\components\types\formItem.ts
  */
@@ -27,8 +27,10 @@ export interface FormItem {
     | 'slider'
     | 'autocomplete'
     | 'title'
-    | 'slot' // 表单项类型
+    | 'slot'
+    | 'twoInput' // 表单项类型
   label: string // 标签文本
+  size?: string
   prop: string // 表单域字段名
   placeholder?: string // 输入框占位文本
   span?: number // 栅格占据的列数
@@ -89,4 +91,16 @@ export interface FormItem {
   slotName?: string // 插槽名称
   isShow?: boolean // 是否显示
   maxlength?: number // 最大长度
+  // 双input
+  prop1?: string // 表单域字段名
+  prop2?: string // 表单域字段名
+  centerContent?: string // 中间内容
+  placeholder1?: string // 中间内容
+  placeholder2?: string // 中间内容
+  controlsPosition?: string
+  vif?: boolean
+  onColor?: string
+  offColor?: string
+  onValue?: string | number
+  offValue?: string | number
 }
