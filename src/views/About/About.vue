@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-12 09:29:05
+ * @LastEditTime: 2025-03-29 15:42:27
  * @Description: 
  * @FilePath: \vue3-project\src\views\About\About.vue
 -->
@@ -225,7 +225,6 @@ watch(
   },
   { deep: true }
 )
-
 const rules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   role: [{ required: true, message: '请选择角色', trigger: 'change' }],

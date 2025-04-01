@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-20 15:32:20
+ * @LastEditTime: 2025-04-01 13:51:58
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -391,13 +391,13 @@ const handleConfirm = async () => {
   let params = { data: dialogFormData }
 
   if (title.value == '新增') {
-    let res = (await api.addUser(params)) as any
+    let res = await api.addUser(params) as any
     if (res.retCode === '200') {
       ElMessage.success(res.retMsg || '新增成功!')
       getTableData()
     }
   } else {
-    let res = (await api.updateUser(params)) as any
+    let res = await api.updateUser(params) as any
     if (res.retCode === '200') {
       ElMessage.success(res.retMsg || '修改成功!')
       getTableData()

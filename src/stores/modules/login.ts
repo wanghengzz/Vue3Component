@@ -2,13 +2,13 @@
  * @Author:
  * @Date: 2025-01-13 09:52:25
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 17:22:07
+ * @LastEditTime: 2025-04-01 13:42:56
  * @Description:
  * @FilePath: \vue3-project\src\stores\modules\login.ts
  */
 import { defineStore } from 'pinia'
 import type { UserState } from '../types'
-import { LoginIn } from '@/api/Login'
+import { LoginIn, Register } from '@/api/Login'
 export const useLoginStore = defineStore('login', {
   state: (): UserState => ({
     id: 0,
@@ -30,12 +30,12 @@ export const useLoginStore = defineStore('login', {
     async login(username: string, password: string) {
       try {
         // 模拟API调用
-        const response = await LoginIn({ username, password }) as any
-        console.log(response,'~~')
+        const response = (await LoginIn({ username, password })) as any
+        console.log(response, '~~')
         this.username = response.data.username
         this.token = response.data.token
         localStorage.setItem('token', response.data.token)
-        
+
         // this.id = response.id
         // this.username = response.username
         // this.token = response.token
@@ -45,6 +45,13 @@ export const useLoginStore = defineStore('login', {
       }
     },
 
+    async RegisterUser(username: string, password: string) {
+      try {
+       await Register({ username, password })
+      } catch (error) {
+        throw new Error('注册失败')
+      }
+    },
     logout() {
       this.id = 0
       this.username = ''

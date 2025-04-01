@@ -2,13 +2,14 @@
  * @Author:
  * @Date: 2025-02-27 10:26:50
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-27 13:33:06
+ * @LastEditTime: 2025-04-01 13:49:57
  * @Description:
  * @FilePath: \vue3-project\src\utils\request.ts
  */
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { useStore } from '@/stores/index'
+
 const request = axios.create({
   baseURL: '/api',
   timeout: 5000,
@@ -25,6 +26,14 @@ request.interceptors.request.use((config) => {
   return config
 })
 
+// 定义响应数据接口
+interface ResponseData {
+  retCode: number;
+  retMsg: string;
+  data?: any;
+  [key: string]: any;
+}
+
 // 响应拦截器
 request.interceptors.response.use(
   (response) => {
@@ -33,15 +42,21 @@ request.interceptors.response.use(
       if (response.config.responseType === 'blob'){
         return response
       }else{
-         return response.data
+        if (response.data.retCode==200){
+           return response.data
+        }else{
+           ElMessage.error(response.data.retMsg || '请求失败')
+          return Promise.reject(new Error(response.data.retMsg))
+        }
       }
     }
     ElMessage.error(response.data.retMsg || '请求失败')
     return Promise.reject(new Error(response.data.retMsg))
   },
   (error) => {
-    ElMessage.error(error.response?.data?.retMsg || '请求失败')
-    if (error.response?.data?.retCode == 401) {
+    const responseData = error.response?.data as ResponseData | undefined;
+    ElMessage.error(responseData?.retMsg || '请求失败')
+    if (responseData?.retCode == 401) {
       const store = useStore()
       store.login.token = ''
       localStorage.removeItem('token')
@@ -49,7 +64,6 @@ request.interceptors.response.use(
         window.location.href = '/login'
       },1000)
     }
-
     return Promise.reject(error)
   }
 )
