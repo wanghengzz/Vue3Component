@@ -2,7 +2,7 @@
  * @Author:
  * @Date: 2025-02-27 10:26:50
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-01 13:49:57
+ * @LastEditTime: 2025-04-01 14:25:41
  * @Description:
  * @FilePath: \vue3-project\src\utils\request.ts
  */
@@ -20,6 +20,9 @@ const request = axios.create({
 request.interceptors.request.use((config) => {
   const store = useStore()
   let token = store.login.token || localStorage.getItem('token')
+  console.log(store.login.token,'store')
+  console.log(localStorage.getItem('token'), 'localStorage')
+  
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }

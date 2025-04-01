@@ -2,7 +2,7 @@
  * @Author:
  * @Date: 2025-01-13 09:52:25
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-01 13:42:56
+ * @LastEditTime: 2025-04-01 14:27:11
  * @Description:
  * @FilePath: \vue3-project\src\stores\modules\login.ts
  */
@@ -34,7 +34,6 @@ export const useLoginStore = defineStore('login', {
         console.log(response, '~~')
         this.username = response.data.username
         this.token = response.data.token
-        localStorage.setItem('token', response.data.token)
 
         // this.id = response.id
         // this.username = response.username

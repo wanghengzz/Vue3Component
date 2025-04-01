@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-27 13:39:42
+ * @LastEditTime: 2025-04-01 14:29:09
  * @Description: 
  * @FilePath: \vue3-project\src\router\index.ts
  */
@@ -15,6 +15,7 @@
  * @FilePath: \vue3-project\src\router\index.ts
  */
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { useStore } from '@/stores'
 
 // 定义路由记录类型
 const routes: Array<RouteRecordRaw> = [
@@ -103,7 +104,8 @@ const router = createRouter({
 // 添加类型化的路由守卫
 router.beforeEach((to, from, next) => {
   // 获取本地存储的token
-  const token = localStorage.getItem('token')
+  let store=useStore()
+  const token = store.login.token
   
   // 设置白名单路由，这些路由不需要验证token
   const whiteList = ['/login']
