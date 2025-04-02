@@ -2,100 +2,194 @@
  * @Author: 
  * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-17 14:20:54
- * @Description: 
- * @FilePath: \vue3-project\src\components\FormItem.vue
--->
-<!--
- * @Author: 
- * @Date: 2025-01-14 11:14:36
- * @LastEditors: Do not edit
- * @LastEditTime: 2025-01-16 10:49:03
+ * @LastEditTime: 2025-04-02 14:59:50
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
 -->
 <template>
   <div class="form-item">
-    <el-form ref="formRef" :model="formData" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
+    <el-form
+      ref="formRef"
+      :model="formData"
+      :rules="rules"
+      :label-width="labelWidth"
+      :label-position="labelPosition"
+    >
       <el-row :gutter="20">
         <!-- v-if="item.vif != undefined ? item.vif : true" -->
         <template v-for="(item, index) in filteredFormConfig" :key="index">
-          <el-col :span="item.span || 6" v-if="item.vif != undefined ? item.vif : true">
+          <el-col
+            :span="item.span || 6"
+            v-if="item.vif != undefined ? item.vif : true"
+          >
             <template v-if="item.type === 'title'">
               <el-divider content-position="left">{{ item.label }}</el-divider>
             </template>
             <el-form-item v-else :label="item.label" :prop="item.prop">
               <!-- 输入框 -->
-              <el-input v-if="item.type === 'input'" v-model="formData[item.prop]" :placeholder="item.placeholder"
-                :disabled="item.disabled" :clearable="item.clearable" :maxlength="item.maxlength"
-                :size="item.size || 'small'" @input="handleInput(item, $event)" />
+              <el-input
+                v-if="item.type === 'input'"
+                v-model="formData[item.prop]"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                :clearable="item.clearable"
+                :maxlength="item.maxlength"
+                :size="item.size || 'small'"
+                @input="handleInput(item, $event)"
+              />
 
               <!-- 文本域 -->
-              <el-input v-if="item.type === 'textarea'" v-model="formData[item.prop]" type="textarea"
-                :size="item.size || 'small'" :rows="item.rows || 3" :placeholder="item.placeholder"
-                :disabled="item.disabled" @input="handleInput(item, $event)" />
+              <el-input
+                v-if="item.type === 'textarea'"
+                v-model="formData[item.prop]"
+                type="textarea"
+                :size="item.size || 'small'"
+                :rows="item.rows || 3"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                @input="handleInput(item, $event)"
+              />
 
               <!-- 选择器 -->
-              <el-select v-if="item.type === 'select'" v-model="formData[item.prop]" :placeholder="item.placeholder"
-                :disabled="item.disabled" :clearable="item.clearable" :multiple="item.multiple"
-                :multiple-limit="item.multipleLimit" :filterable="item.filterable" :filter-method="item.filterMethod"
-                :filter-placeholder="item.filterPlaceholder" :remote="item.remote" :remote-method="item.remoteMethod"
-                :loading="item.loading" :size="item.size || 'small'" :placement="item.placement || 'bottom'"
-                @select="item.selectMethod">
-                <el-option v-for="option in item.options" :key="option[item.valueKey || 'value']"
-                  :label="option[item.labelKey || 'label']" :value="option[item.valueKey || 'value']" />
+              <el-select
+                v-if="item.type === 'select'"
+                v-model="formData[item.prop]"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                :clearable="item.clearable"
+                :multiple="item.multiple"
+                :multiple-limit="item.multipleLimit"
+                :filterable="item.filterable"
+                :filter-method="item.filterMethod"
+                :filter-placeholder="item.filterPlaceholder"
+                :remote="item.remote"
+                :remote-method="item.remoteMethod"
+                :loading="item.loading"
+                :size="item.size || 'small'"
+                :placement="item.placement || 'bottom'"
+                @select="item.selectMethod"
+              >
+                <el-option
+                  v-for="option in item.options"
+                  :key="option[item.valueKey || 'value']"
+                  :label="option[item.labelKey || 'label']"
+                  :value="option[item.valueKey || 'value']"
+                />
               </el-select>
 
               <!-- 单选框组 -->
-              <el-radio-group v-if="item.type === 'radio'" v-model="formData[item.prop]" :disabled="item.disabled"
-                @select="item.selectMethod">
-                <el-radio v-for="option in item.options" :key="option.value" :label="option.value">
+              <el-radio-group
+                v-if="item.type === 'radio'"
+                v-model="formData[item.prop]"
+                :disabled="item.disabled"
+                @select="item.selectMethod"
+              >
+                <el-radio
+                  v-for="option in item.options"
+                  :key="option.value"
+                  :label="option.value"
+                >
                   {{ option.label }}
                 </el-radio>
               </el-radio-group>
 
               <!-- 复选框组 -->
-              <el-checkbox-group v-if="item.type === 'checkbox'" v-model="formData[item.prop]" :disabled="item.disabled"
-                @select="item.selectMethod">
-                <el-checkbox v-for="option in item.options" :key="option.value" :label="option.value">
+              <el-checkbox-group
+                v-if="item.type === 'checkbox'"
+                v-model="formData[item.prop]"
+                :disabled="item.disabled"
+                @select="item.selectMethod"
+              >
+                <el-checkbox
+                  v-for="option in item.options"
+                  :key="option.value"
+                  :label="option.value"
+                >
                   {{ option.label }}
                 </el-checkbox>
               </el-checkbox-group>
 
               <!-- 开关 -->
-              <el-switch v-if="item.type === 'switch'" v-model="formData[item.prop]" :disabled="item.disabled"
+              <el-switch
+                v-if="item.type === 'switch'"
+                v-model="formData[item.prop]"
+                :disabled="item.disabled"
                 @select="item.selectMethod"
-                :style="{ '--el-switch-on-color': item.onColor || '#13ce66', '--el-switch-off-color': item.offColor ||'#ff4949'}"
-                :inactive-value="item.offValue || false" :active-value="item.onValue || true" />
+                :style="{
+                  '--el-switch-on-color': item.onColor || '#13ce66',
+                  '--el-switch-off-color': item.offColor || '#ff4949',
+                }"
+                :inactive-value="item.offValue || false"
+                :active-value="item.onValue || true"
+              />
 
               <!-- 日期选择器 -->
-              <el-date-picker v-if="item.type === 'date'" v-model="formData[item.prop]" :type="item.dateType || 'date'"
-                :placeholder="item.placeholder" :disabled="item.disabled" :clearable="item.clearable"
-                :size="item.size || 'small'" @select="item.selectMethod" />
+              <el-date-picker
+                v-if="item.type === 'date'"
+                v-model="formData[item.prop]"
+                :type="item.dateType || 'date'"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                :clearable="item.clearable"
+                :size="item.size || 'small'"
+                @select="item.selectMethod"
+              />
 
               <!-- 时间选择器 -->
-              <el-time-picker v-if="item.type === 'time'" v-model="formData[item.prop]"
-                :is-range="item.timeType === 'timerange'" :placeholder="item.placeholder" :disabled="item.disabled"
-                :clearable="item.clearable" :size="item.size || 'small'" @select="item.selectMethod" />
+              <el-time-picker
+                v-if="item.type === 'time'"
+                v-model="formData[item.prop]"
+                :is-range="item.timeType === 'timerange'"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                :clearable="item.clearable"
+                :size="item.size || 'small'"
+                @select="item.selectMethod"
+              />
 
               <!-- 级联选择器 -->
-              <el-cascader v-if="item.type === 'cascader'" v-model="formData[item.prop]" :placeholder="item.placeholder"
-                :disabled="item.disabled" :clearable="item.clearable" :options="item.options"
-                :size="item.size || 'small'" :props="{
+              <el-cascader
+                v-if="item.type === 'cascader'"
+                v-model="formData[item.prop]"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                :clearable="item.clearable"
+                :options="item.options"
+                :size="item.size || 'small'"
+                :props="{
                   value: item.valueKey || 'value',
                   label: item.labelKey || 'label',
-                }" :show-all-levels="item.showAllLevels || false"
-                :show-input-controls="item.showInputControls || false" @select="item.selectMethod" />
+                }"
+                :show-all-levels="item.showAllLevels || false"
+                :show-input-controls="item.showInputControls || false"
+                @select="item.selectMethod"
+              />
 
               <!-- 滑块 -->
-              <el-slider v-if="item.type === 'slider'" v-model="formData[item.prop]" :placeholder="item.placeholder"
-                :disabled="item.disabled" :min="item.min || 0" :max="item.max || 100" :step="item.step || 1"
-                :show-input="item.showInput || true" @select="item.selectMethod" />
+              <el-slider
+                v-if="item.type === 'slider'"
+                v-model="formData[item.prop]"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                :min="item.min || 0"
+                :max="item.max || 100"
+                :step="item.step || 1"
+                :show-input="item.showInput || true"
+                @select="item.selectMethod"
+              />
               <!-- 模糊搜索 -->
-              <el-autocomplete v-if="item.type === 'autocomplete'" v-model="formData[item.prop]"
-                :placeholder="item.placeholder" :disabled="item.disabled" :filter-method="item.filterMethod"
-                :fetch-suggestions="debouncedFetchSuggestions(item)" :value-key="item.valueKey"
-                :size="item.size || 'small'" @select="item.selectMethod" :clearable="item.clearable || false">
+              <el-autocomplete
+                v-if="item.type === 'autocomplete'"
+                v-model="formData[item.prop]"
+                :placeholder="item.placeholder"
+                :disabled="item.disabled"
+                :filter-method="item.filterMethod"
+                :fetch-suggestions="debouncedFetchSuggestions(item)"
+                :value-key="item.valueKey"
+                :size="item.size || 'small'"
+                @select="item.selectMethod"
+                :clearable="item.clearable || false"
+              >
                 <template #default="scope">
                   <div v-if="Array.isArray(item.contentKey)">
                     <span v-for="key in item.contentKey" :key="key">
@@ -114,15 +208,23 @@
               <!-- 双输入框 -->
               <div v-if="item.type === 'twoInput'" class="twoInput">
                 <el-form-item :prop="item.prop1" class="twoInput-item">
-                  <el-input-number v-model="formData[item.prop1 || '']" :placeholder="item.placeholder1"
-                    :disabled="item.disabled" :size="item.size || 'small'"
-                    :controls-position="item.controlsPosition || 'right'" />
+                  <el-input-number
+                    v-model="formData[item.prop1 || '']"
+                    :placeholder="item.placeholder1"
+                    :disabled="item.disabled"
+                    :size="item.size || 'small'"
+                    :controls-position="item.controlsPosition || 'right'"
+                  />
                 </el-form-item>
                 <span>{{ item.centerContent || '~' }}</span>
                 <el-form-item :prop="item.prop2" class="twoInput-item">
-                  <el-input-number v-model="formData[item.prop2 || '']" :placeholder="item.placeholder2"
-                    :disabled="item.disabled" :size="item.size || 'small'"
-                    :controls-position="item.controlsPosition || 'right'" />
+                  <el-input-number
+                    v-model="formData[item.prop2 || '']"
+                    :placeholder="item.placeholder2"
+                    :disabled="item.disabled"
+                    :size="item.size || 'small'"
+                    :controls-position="item.controlsPosition || 'right'"
+                  />
                 </el-form-item>
               </div>
 
@@ -225,12 +327,15 @@ const filteredFormConfig = computed(() =>
 
 // 创建防抖后的fetchSuggestions函数
 const debouncedFetchSuggestions = (item: FormItem) => {
-  return _.debounce((queryString: string, callback: (suggestions: any[]) => void) => {
-    if (item.fetchSuggestions) {
-      item.fetchSuggestions(queryString, callback);
-    }
-  }, 1000);
-};
+  return _.debounce(
+    (queryString: string, callback: (suggestions: any[]) => void) => {
+      if (item.fetchSuggestions) {
+        item.fetchSuggestions(queryString, callback)
+      }
+    },
+    1000
+  )
+}
 </script>
 
 <style lang="scss" scoped>
@@ -260,7 +365,7 @@ const debouncedFetchSuggestions = (item: FormItem) => {
   :deep(.el-time-editor.el-input__wrapper) {
     width: 100% !important;
   }
-  .el-divider{
+  .el-divider {
     margin: 20px 0px;
     font-size: 20px;
   }

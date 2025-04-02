@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="dialogVisible" :title="title" :width="width" :close-on-click-modal="false" @close="handleClose">
     <!-- 弹窗内容插槽 -->
-    <FormItem :form-config="props.formConfig" v-model="props.formData" :rules="rules" ref="formItemRef" labelWidth="60px">
+    <FormItem :form-config="formConfig" v-model="props.formData" :rules="rules" ref="formItemRef" labelWidth="60px">
     </FormItem>
 
     <!-- 底部按钮插槽 -->

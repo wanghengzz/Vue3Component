@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-02-27 10:44:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-14 10:13:19
+ * @LastEditTime: 2025-04-02 13:58:02
  * @Description: 
  * @FilePath: \vue3-project\src\components\TableCom.vue
 -->
@@ -16,6 +16,8 @@
         style="width: 100%"
         @row-click="handleRowClick"
         @row-dblclick="handleRowDblClick"
+        :row-key="rowKey"
+        :tree-props="{ children: treeChildKey }"
       >
         <el-table-column
           v-if="showIndex"
@@ -150,6 +152,14 @@ const props = defineProps({
   paginationLayout:{
     type:String,
     default:'total, sizes, prev, pager, next, jumper'
+  },
+  treeChildKey:{
+    type:String,
+    default:'children'
+  },
+  rowKey:{
+    type:String,
+    default:'id'
   }
 })
 

@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-01 13:51:58
+ * @LastEditTime: 2025-04-02 14:01:11
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -182,7 +182,7 @@ const buttonGroup = [
       getTableData()
     },
     onUploadError: (response: any) => {
-      ElMessage.error(response.retMsg)
+      ElMessage.error('导入失败!')
     },
   },
   {

@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 10:51:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-20 15:35:49
+ * @LastEditTime: 2025-04-02 13:51:58
  * @Description: 
  * @FilePath: \vue3-project\src\components\commonButton.vue
 -->
@@ -36,11 +36,14 @@
         ref="uploadRef"
         v-else
         :action="item.action"
-        :show-file-list="false"
+        :show-file-list="!item.autoUpload"
         :auto-upload="item.autoUpload != undefined ? item.autoUpload : true"
         :on-success="(response:any) => handleUploadSuccess(response, item)"
         :on-error="(response: any) => handleUploadError(response, item)"
         :limit="1"
+        :headers="{
+          Authorization: `Bearer ${token}`,
+        }"
       >
         <template #trigger>
           <el-button
@@ -64,6 +67,14 @@
             </el-icon>
           </el-button>
         </template>
+        <el-button
+          type="success"
+          @click="submitUpload"
+          :size="item.sizeUp || 'small'"
+          v-if="!item.autoUpload"
+        >
+          开始上传
+        </el-button>
       </el-upload>
     </template>
   </div>
@@ -74,11 +85,19 @@ import type { ButtonItem } from './types/button'
 import type { PropType } from 'vue'
 import { ref, watch } from 'vue'
 import type { UploadInstance } from 'element-plus'
+import { useStore } from '@/stores/index'
+const store = useStore()
+const token = store.login.token
 
-const uploadRef = ref<UploadInstance>()
+const uploadRef = ref<UploadInstance[]>([])
 
 const submitUpload = () => {
-  uploadRef.value!.submit()
+  // 由于可能有多个上传组件，我们需要找到当前激活的那个
+  uploadRef.value.forEach((upload) => {
+    if (upload) {
+      upload.submit()
+    }
+  })
 }
 const props = defineProps({
   buttonGroup: {
@@ -132,6 +151,11 @@ const handleUploadError = (response: any, item: ButtonItem) => {
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   .el-button {
     margin: 0px;
     display: inline-flex;

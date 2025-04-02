@@ -2,7 +2,7 @@
  * @Author:
  * @Date: 2024-11-12 14:45:43
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-20 15:34:19
+ * @LastEditTime: 2025-04-02 10:54:24
  * @Description:
  * @FilePath: \vue3-project\src\components\types\button.ts
  */
@@ -22,6 +22,7 @@ export interface ButtonItem {
   autoUpload?: boolean
   onUploadSuccess?: (response: any) => void
   onUploadError?: (error: any) => void
+  sizeUp?: string
 }
 
 export interface Props {
