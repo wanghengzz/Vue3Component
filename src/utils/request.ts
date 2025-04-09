@@ -2,7 +2,7 @@
  * @Author:
  * @Date: 2025-02-27 10:26:50
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-01 14:25:41
+ * @LastEditTime: 2025-04-09 09:13:31
  * @Description:
  * @FilePath: \vue3-project\src\utils\request.ts
  */
@@ -30,8 +30,8 @@ request.interceptors.request.use((config) => {
 })
 
 // 定义响应数据接口
-interface ResponseData {
-  retCode: number;
+export interface ResponseData {
+  retCode: number|string;
   retMsg: string;
   data?: any;
   [key: string]: any;
@@ -65,7 +65,7 @@ request.interceptors.response.use(
       localStorage.removeItem('token')
       setTimeout(()=>{
         window.location.href = '/login'
-      },1000)
+      },500)
     }
     return Promise.reject(error)
   }

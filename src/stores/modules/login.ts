@@ -2,7 +2,7 @@
  * @Author:
  * @Date: 2025-01-13 09:52:25
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-01 14:27:11
+ * @LastEditTime: 2025-04-07 09:23:16
  * @Description:
  * @FilePath: \vue3-project\src\stores\modules\login.ts
  */
@@ -30,7 +30,7 @@ export const useLoginStore = defineStore('login', {
     async login(username: string, password: string) {
       try {
         // 模拟API调用
-        const response = (await LoginIn({ username, password })) as any
+        const response = await LoginIn({ username, password })
         console.log(response, '~~')
         this.username = response.data.username
         this.token = response.data.token
