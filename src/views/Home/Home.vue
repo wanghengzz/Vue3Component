@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-07 09:16:59
+ * @LastEditTime: 2025-04-22 10:45:51
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -205,6 +205,11 @@ const tableColumn = reactive([
       {
         prop: 'name',
         label: '名字',
+        sortable: true,
+        filters: [
+          { text: '张三', value: '张三' },
+          { text: '李四', value: '李四' }
+        ]
       },
       {
         prop: 'sex',
@@ -213,6 +218,12 @@ const tableColumn = reactive([
       {
         prop: 'age',
         label: '年龄',
+        sortable: 'custom',
+        filters: [
+          { text: '20岁以下', value: 20 },
+          { text: '20-30岁', value: '20-30' }
+        ],
+        filterMultiple: true
       },
     ],
   },
@@ -247,7 +258,7 @@ const tableColumn = reactive([
 ])
 const tableData = ref([])
 const pagger = ref({
-  pageSize: 20,
+  pageSize: 30,
   currentPage: 1,
   total: 0,
 })

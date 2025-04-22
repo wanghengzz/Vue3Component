@@ -5,6 +5,10 @@ export interface TableItem {
   align?: string
   type?: string
   slotName?: string
-  fixed?:boolean|string,
+  fixed?: boolean | string
+  filters?: boolean
+  sortable?: boolean
+  filterMultiple?: boolean
+  filteredValue?: any[]
   children?: TableItem[]
 }

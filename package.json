@@ -10,12 +10,17 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@vueuse/core": "^13.1.0",
     "axios": "^1.8.1",
     "element-plus": "^2.9.3",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",
+    "virtual-scroll-list": "^0.7.3",
     "vue": "^3.4.37",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "vue-virtual-scroll-list": "^2.3.5",
+    "vue-virtual-scroller": "^1.1.2",
+    "vue3-virtual-scroll-list": "^0.2.1"
   },
   "devDependencies": {
     "@types/node": "^22.7.7",

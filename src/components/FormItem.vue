@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 11:14:36
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-02 14:59:50
+ * @LastEditTime: 2025-04-21 10:13:45
  * @Description: 
  * @FilePath: \vue3-project\src\components\FormItem.vue
 -->
@@ -33,7 +33,7 @@
                 :placeholder="item.placeholder"
                 :disabled="item.disabled"
                 :clearable="item.clearable"
-                :maxlength="item.maxlength"
+                :maxlength="item.maxlength || null"
                 :size="item.size || 'small'"
                 @input="handleInput(item, $event)"
               />
@@ -47,6 +47,7 @@
                 :rows="item.rows || 3"
                 :placeholder="item.placeholder"
                 :disabled="item.disabled"
+                :maxlength="item.maxlength || null"
                 @input="handleInput(item, $event)"
               />
 
@@ -86,10 +87,11 @@
               >
                 <el-radio
                   v-for="option in item.options"
-                  :key="option.value"
-                  :label="option.value"
+                  :key="option[item.valueKey || 'value']"
+                  :label="option[item.labelKey || 'label']"
+                  :value="option[item.valueKey || 'value']"
                 >
-                  {{ option.label }}
+                  {{ option[item.labelKey || 'label'] }}
                 </el-radio>
               </el-radio-group>
 
@@ -187,6 +189,7 @@
                 :fetch-suggestions="debouncedFetchSuggestions(item)"
                 :value-key="item.valueKey"
                 :size="item.size || 'small'"
+                :maxlength="item.maxlength || null"
                 @select="item.selectMethod"
                 :clearable="item.clearable || false"
               >

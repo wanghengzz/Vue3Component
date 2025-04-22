@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-29 15:42:27
+ * @LastEditTime: 2025-04-21 10:14:51
  * @Description: 
  * @FilePath: \vue3-project\src\views\About\About.vue
 -->
@@ -126,7 +126,9 @@ const formConfig = reactive<FormItem[]>([
     type: 'radio',
     label: '性别',
     prop: 'gender',
-    options: getEnumeValue('sex'),
+    labelKey: 'enumDesc',
+    valueKey: 'enumValue',
+    options: getEnumeValue('gender'),
   },
   {
     type: 'date',
