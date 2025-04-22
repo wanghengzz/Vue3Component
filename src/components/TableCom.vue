@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-02-27 10:44:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-22 15:57:23
+ * @LastEditTime: 2025-04-22 16:26:28
  * @Description: 
  * @FilePath: \vue3-project\src\components\TableCom.vue
 -->
@@ -24,8 +24,10 @@
         virtual-scrolling
         :scroll-options="{
           scrollToIndex: 0,
-          cache: 20,
+          cache: 50,
           estimatedItemSize: 50,
+          initScrollOffset: 0,
+          buffer: 20
         }"
       >
         <el-table-column
@@ -186,6 +188,10 @@ const props = defineProps({
     type: [String, Number],
     default: '100%',
   },
+  lazyLoad: {
+    type: Boolean,
+    default: true
+  }
 })
 
 const emit = defineEmits(['update:pagger', 'row-click', 'row-dblclick'])
@@ -283,6 +289,32 @@ const filterHandler = (
   }
 }
 
+// 添加延迟加载逻辑
+const initData = () => {
+  if (props.lazyLoad) {
+    // 使用 requestAnimationFrame 分批处理数据
+    let currentIndex = 0;
+    const batchSize = 1000;
+    
+    const processNextBatch = () => {
+      const end = Math.min(currentIndex + batchSize, props.tableData.length);
+      const batch = props.tableData.slice(currentIndex, end);
+      
+      processedData.value.push(...batch);
+      currentIndex = end;
+      
+      if (currentIndex < props.tableData.length) {
+        requestAnimationFrame(processNextBatch);
+      }
+    };
+    
+    processedData.value = [];
+    requestAnimationFrame(processNextBatch);
+  } else {
+    processedData.value = [...props.tableData];
+  }
+};
+
 // 监听 Worker 消息
 onMounted(() => {
   worker.value = new Worker(new URL('../workers/tableWorker.ts', import.meta.url), { type: 'module' })
@@ -299,14 +331,14 @@ onMounted(() => {
   }
 })
 
-// 添加 watch 来初始化数据
+// 修改 watch
 watch(
   () => props.tableData,
-  (newData) => {
-    processedData.value = [...newData]
+  () => {
+    initData();
   },
   { immediate: true }
-)
+);
 </script>
 
 <style scoped lang="scss">
