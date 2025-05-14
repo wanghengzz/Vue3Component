@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-14 10:51:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-02 13:51:58
+ * @LastEditTime: 2025-04-30 09:22:58
  * @Description: 
  * @FilePath: \vue3-project\src\components\commonButton.vue
 -->
@@ -128,7 +128,6 @@ const handleClick = async (item: ButtonItem, index: number) => {
   }
 }
 
-// ... existing code ...
 const handleUploadSuccess = (response: any, item: ButtonItem) => {
   if (item.onUploadSuccess) {
     item.onUploadSuccess(response)
@@ -139,8 +138,6 @@ const handleUploadError = (response: any, item: ButtonItem) => {
     item.onUploadError(response)
   }
 }
-
-// ... existing code ...
 </script>
 
 <style lang="scss" scoped>

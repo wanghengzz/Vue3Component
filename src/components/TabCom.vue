@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-03-14 14:40:04
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-19 11:05:35
+ * @LastEditTime: 2025-04-28 13:46:28
  * @Description: 
  * @FilePath: \vue3-project\src\components\TabCom.vue
 -->
@@ -42,9 +42,12 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .demo-tabs > .el-tabs__content {
   height: 100%;
+  &> div{
+    height: 100%;
+  }
 }
 .el-tabs--top {
   height: 100%;

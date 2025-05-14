@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-22 16:46:28
+ * @LastEditTime: 2025-05-07 17:41:47
  * @Description: 
  * @FilePath: \vue3-project\src\views\Home\Home.vue
 -->
@@ -396,6 +396,7 @@ const handlePagger = (val: any) => {
 const handleEdit = (row: any) => {
   title.value = '编辑'
   dialog.value.open()
+  resetDialogFormData()
   Object.assign(dialogFormData, row)
 }
 const handleConfirm = async () => {

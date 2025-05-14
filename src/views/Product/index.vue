@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-19 11:07:44
+ * @LastEditTime: 2025-04-28 13:45:00
  * @Description: 
  * @FilePath: \vue3-project\src\views\Product\index.vue
 -->
@@ -18,7 +18,7 @@
   <div class="Product">
     <TabCom :tabs="tabs" @tabClick="tabClick" defaultTab="first">
       <template #first>
-        用户管理
+        <ImgUpload />
       </template>
       <template #second>
         配置管理
@@ -37,6 +37,7 @@
 import {reactive, ref} from 'vue'
 import type {Tab} from '@/components/types/tab'
 import type { TabsPaneContext } from 'element-plus'
+import ImgUpload from './components/ImgUpload.vue'
 
 const tabs = reactive<Tab[]>([
   {

@@ -2,7 +2,7 @@
  * @Author: 
  * @Date: 2025-01-13 09:48:53
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-04-21 10:14:51
+ * @LastEditTime: 2025-04-28 13:35:04
  * @Description: 
  * @FilePath: \vue3-project\src\views\About\About.vue
 -->
@@ -242,7 +242,7 @@ const rules = {
           callback()
         }
       },
-      trigger: 'change'
+      trigger: ['blur', 'change']
     }
   ],
   maxPrice: [
@@ -257,7 +257,7 @@ const rules = {
           callback()
         }
       },
-      trigger: 'change'
+      trigger: ['blur', 'change']
     }
   ]
 }
